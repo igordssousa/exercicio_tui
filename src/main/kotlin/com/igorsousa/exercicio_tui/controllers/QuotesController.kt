@@ -17,7 +17,7 @@ class QuotesController(
     @GetMapping("/{id}")
     fun getQuote(@PathVariable("id") id: String): Mono<Quote> {
         return quotesService.findQuoteById(id)
-            .switchIfEmpty(Mono.error(QuoteNotFoundException("Help")))
+            .switchIfEmpty(Mono.error(QuoteNotFoundException("Quote not found")))
 
     }
 
