@@ -1,0 +1,27 @@
+version: '3'
+services:
+  web:
+    build: .
+    environment:
+      MONGODB_HOST: mongodb
+    depends_on:
+      - mongo-seed
+    networks:
+      - default
+    ports:
+      - "8080:8080"
+  mongodb:
+      image: mongo
+      networks:
+        - default
+      ports:
+        - "27017:27017"
+  mongo-seed:
+    build: ./mongo-seed
+    networks:
+      - default
+    depends_on:
+      - mongodb
+networks:
+  default:
+    driver: bridge
