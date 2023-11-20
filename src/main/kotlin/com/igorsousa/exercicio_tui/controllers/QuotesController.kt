@@ -2,10 +2,8 @@ package com.igorsousa.exercicio_tui.controllers
 
 import com.igorsousa.exercicio_tui.exceptions.QuoteNotFoundException
 import com.igorsousa.exercicio_tui.models.Quote
-import com.igorsousa.exercicio_tui.repositories.QuotesRepository
 import com.igorsousa.exercicio_tui.services.QuotesService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
@@ -31,6 +29,4 @@ class QuotesController(
     ): Flux<Quote> {
         return quotesService.findQuoteByAuthor(author, page)
     }
-
-    private fun populatePagination(){}
 }
