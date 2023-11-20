@@ -5,6 +5,8 @@ import com.igorsousa.exercicio_tui.models.Quote
 import com.igorsousa.exercicio_tui.repositories.QuotesRepository
 import com.igorsousa.exercicio_tui.services.QuotesService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -15,14 +17,20 @@ class QuotesController(
     @Autowired val quotesService: QuotesService
 ) {
     @GetMapping("/{id}")
+    @ResponseBody
     fun getQuote(@PathVariable("id") id: String): Mono<Quote> {
         return quotesService.findQuoteById(id)
             .switchIfEmpty(Mono.error(QuoteNotFoundException("Quote not found")))
-
     }
 
     @GetMapping("")
-    fun getQuoteByAuthor(@RequestParam("author") author: String): Flux<Quote> {
-        return quotesService.findQuoteByAuthor(author)
+    @ResponseBody
+    fun getQuoteByAuthor(
+        @RequestParam(name = "author", required = false) author: String?,
+        page: Pageable
+    ): Flux<Quote> {
+        return quotesService.findQuoteByAuthor(author, page)
     }
+
+    private fun populatePagination(){}
 }
